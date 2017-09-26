@@ -34,8 +34,10 @@ RSpec.configure do |c|
         install_language_on(host, 'ja_JP.utf-8') if not_controller(host)
         # This will be removed, this is temporary to test localisation.
       end
-      on(host, 'mkdir /opt/puppetlabs/puppet/share/locale/ja')
-      on(host, 'touch /opt/puppetlabs/puppet/share/locale/ja/puppet.po')
+      if puppet_version =~ %r{^(4\.|5\.1\.)}
+        on(host, 'mkdir /opt/puppetlabs/puppet/share/locale/ja')
+        on(host, 'touch /opt/puppetlabs/puppet/share/locale/ja/puppet.po')
+      end
       # Required for binding tests.
       if fact('osfamily') == 'RedHat'
         if fact('operatingsystemmajrelease') =~ %r{7} || fact('operatingsystem') =~ %r{Fedora}
